@@ -16,7 +16,7 @@ int find_pid_by_name( char* ProcName, int* foundpid)
         foundpid[0] = 0;  
         pnlen = strlen(ProcName);  
   
-        /* Open the /proc directory. */  
+       
 dir = opendir("/proc");  
         if (!dir)  
         {  
@@ -24,7 +24,7 @@ dir = opendir("/proc");
                 return -1;  
         }  
   
-        /* Walk through the directory. */  
+       
         while ((d = readdir(dir)) != NULL) {  
   
                 char exe [PATH_MAX+1];  
@@ -32,7 +32,7 @@ dir = opendir("/proc");
                 int len;  
                 int namelen;  
   
-                /* See if this is a process */  
+            
                 if ((pid = atoi(d->d_name)) == 0)       continue;  
   
                 snprintf(exe, sizeof(exe), "/proc/%s/exe", d->d_name);  
@@ -40,17 +40,17 @@ dir = opendir("/proc");
                         continue;  
                 path[len] = '\0';  
   
-                /* Find ProcName */  
+        
                 s = strrchr(path, '/');  
                 if(s == NULL) continue;  
                 s++;  
   
-                /* we don't need small name len */  
+            
                 namelen = strlen(s);  
                 if(namelen < pnlen)     continue;  
   
                 if(!strncmp(ProcName, s, pnlen)) {  
-                        /* to avoid subname like search proc tao but proc taolinke matched */  
+                    
                         if(s[pnlen] == ' ' || s[pnlen] == '\0') {  
                                 foundpid[i] = pid;  
                                 i++;  
